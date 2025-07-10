@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import useProject from "@/hooks/use-project";
 import { cn } from "@/lib/utils";
 import {
   Bot,
@@ -48,24 +49,11 @@ const items = [
   },
 ];
 
-const projects = [
-  {
-    id: 1,
-    title: "Codebrief",
-  },
-  {
-    id: 2,
-    title: "Slink",
-  },
-  {
-    id: 3,
-    title: "OneVote",
-  },
-];
-
 export function AppSidebar() {
   const pathname = usePathname();
   const { open } = useSidebar();
+  const { projects, selectedProjectId, setSelectedProjectId, project } =
+    useProject();
 
   return (
     <Sidebar collapsible="icon" variant="floating">
@@ -110,27 +98,38 @@ export function AppSidebar() {
           <SidebarGroupLabel>Your Projects</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {projects.map((project) => {
+              {projects?.map((project) => {
                 return (
                   <SidebarMenuItem key={project.id}>
                     <SidebarMenuButton asChild>
-                      <div>
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => {
+                          console.log("clicked"); 
+                          setSelectedProjectId(project.id);
+                          console.log({
+                            project,
+                            selectedProjectId,
+                            projects,
+                          });
+                        }}
+                      >
                         <div
                           className={cn(
                             "bg-whtie text-primary flex size-6 items-center justify-center rounded-sm border text-sm",
                             {
-                              "bg-primary text-white": true,
-                              // 'bg-primary text-white' : project.id === project.id
+                              "bg-primary text-white":
+                                project.id === selectedProjectId,
                             },
                             {
-                                "p-2" : !open
-                            }
+                              "p-2": !open,
+                            },
                             // }
                           )}
                         >
-                          {project.title[0]}
+                          {project.name[0]}
                         </div>
-                        <span>{project.title}</span>
+                        <span>{project.name}</span>
                       </div>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
