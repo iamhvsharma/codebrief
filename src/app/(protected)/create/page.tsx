@@ -14,7 +14,8 @@ const CreatePage = () => {
   const { register, handleSubmit, reset } = useForm<FormInput>();
 
   function onSubmit(data: FormInput) {
-    window.alert(data);
+    window.alert(JSON.stringify(data));
+    console.log(data.repoUrl);
     return true;
   }
 
@@ -38,12 +39,12 @@ const CreatePage = () => {
             className="flex flex-col gap-4"
           >
             <Input
-              {...(register("projectName"), { required: true })}
+              {...register("projectName", { required: true })}
               placeholder="Project Name"
               required
-              />
+            />
             <Input
-              {...(register("repoUrl"), { required: true })}
+              {...register("repoUrl", { required: true })}
               placeholder="Github Repo Link"
               type="url"
               required
