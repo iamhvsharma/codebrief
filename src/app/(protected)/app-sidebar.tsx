@@ -52,8 +52,7 @@ const items = [
 export function AppSidebar() {
   const pathname = usePathname();
   const { open } = useSidebar();
-  const { projects, selectedProjectId, setSelectedProjectId, project } =
-    useProject();
+  const { projects, projectId, setprojectId, project } = useProject();
 
   return (
     <Sidebar collapsible="icon" variant="floating">
@@ -105,11 +104,11 @@ export function AppSidebar() {
                       <div
                         className="cursor-pointer"
                         onClick={() => {
-                          console.log("clicked"); 
-                          setSelectedProjectId(project.id);
+                          console.log("clicked");
+                          setprojectId(project.id);
                           console.log({
                             project,
-                            selectedProjectId,
+                            projectId,
                             projects,
                           });
                         }}
@@ -118,8 +117,7 @@ export function AppSidebar() {
                           className={cn(
                             "bg-whtie text-primary flex size-6 items-center justify-center rounded-sm border text-sm",
                             {
-                              "bg-primary text-white":
-                                project.id === selectedProjectId,
+                              "bg-primary text-white": project.id === projectId,
                             },
                             {
                               "p-2": !open,

@@ -5,18 +5,15 @@ import { useLocalStorage } from "usehooks-ts";
 
 const useProject = () => {
   const { data: projects } = api.project.getProjects.useQuery();
-  const [selectedProjectId, setSelectedProjectId] = useLocalStorage(
-    "codebrief-projectId",
-    "",
-  );
+  const [projectId, setprojectId] = useLocalStorage("codebrief-projectId", "");
 
-  const project = projects?.find((project) => project.id === selectedProjectId);
+  const project = projects?.find((project) => project.id === projectId);
 
   return {
     projects,
     project,
-    selectedProjectId,
-    setSelectedProjectId
+    projectId,
+    setprojectId,
   };
 };
 
