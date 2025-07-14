@@ -52,7 +52,7 @@ const items = [
 export function AppSidebar() {
   const pathname = usePathname();
   const { open } = useSidebar();
-  const { projects, projectId, setprojectId, project } = useProject();
+  const { projects, projectId, setprojectId } = useProject();
 
   return (
     <Sidebar collapsible="icon" variant="floating">

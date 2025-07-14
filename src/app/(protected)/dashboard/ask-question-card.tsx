@@ -26,6 +26,7 @@ const AskQuestionCard = () => {
   const [answer, setAnswer] = useState("");
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
     if (!project?.id) return;
     setLoading(true);
@@ -54,6 +55,8 @@ const AskQuestionCard = () => {
           </DialogHeader>
           <h1>{loading ? "Answer ...." : answer}</h1>
 
+        
+
           <h1>Files </h1>
           {filesReferences.map((files) => {
             return <span key={files.fileName}> {files.fileName} </span>;
@@ -67,7 +70,12 @@ const AskQuestionCard = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={onSubmitHandler}>
-            <Textarea placeholder="Eg: Which file I should change to edit the homepage." />
+            <Textarea
+              placeholder="Eg: Which file I should change to edit the homepage."
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+            />
+
             <div className="h-4"></div>
             <Button type="submit">Ask CodeBrief</Button>
           </form>
