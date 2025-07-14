@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Document } from "@langchain/core/documents";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const model = genAI.getGenerativeModel({
@@ -8,7 +9,7 @@ const model = genAI.getGenerativeModel({
 export const aisummarizeCommit = async (diff: string) => {
   // https://github.com/iamhvsharma/onevote/{commitId}.diff
   const response = await model.generateContent([
-       `You are an expert programmer tasked with summarizing a git diff.
+    `You are an expert programmer tasked with summarizing a git diff.
 
         Below are some important reminders about the git diff format:
 
@@ -62,3 +63,46 @@ export const aisummarizeCommit = async (diff: string) => {
 
   return response.response.text();
 };
+
+// Generate summary of the code files
+export async function summariseCode(doc: Document) {
+  try {
+    const code = doc.pageContent.slice(0, 10000);
+    const response = await model.generateContent([
+      `You are a senior software engineer specializing in helping junior developers and interns onboard onto large codebases. 
+      Your job is to act as a friendly and knowledgeable mentor, explaining the purpose and functionality of different code files and components in simple terms.
+
+      You are currently helping a junior developer understand the file: ${doc.metadata.source}
+
+      Here is the file content:
+      -------------------------
+      ${code}
+      -------------------------
+
+      Provide a clear and concise summary (in less than 100 words) explaining:
+      - The purpose of the file
+      - What the code does
+      - Any key functions, classes, or patterns that are important for understanding
+
+      Use simple, beginner-friendly language. Avoid jargon unless necessary, and include a one-line insight if the file is crucial for understanding the overall project.
+
+    `,
+    ]);
+
+    return response.response.text();
+  } catch (error) {
+    return "";
+  }
+}
+
+// Generate embeddings
+
+export async function generateEmbedding(summary: string) {
+  const model = genAI.getGenerativeModel({
+    model: "text-embedding-004",
+  });
+
+  const result = await model.embedContent(summary);
+  const embedding = result.embedding;
+  return embedding.values;
+}
