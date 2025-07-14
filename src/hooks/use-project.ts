@@ -1,5 +1,4 @@
 import { api } from "@/trpc/react";
-import type { Project } from "@prisma/client";
 
 import { useLocalStorage } from "usehooks-ts";
 

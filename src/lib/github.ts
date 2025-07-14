@@ -1,7 +1,6 @@
 import { db } from "@/server/db";
 import { Octokit } from "octokit";
 import axios from "axios";
-import { headers } from "next/headers";
 import { aisummarizeCommit } from "./gemini";
 
 export const octokit = new Octokit({
@@ -9,11 +8,11 @@ export const octokit = new Octokit({
 });
 
 type Response = {
-  commitMessage: String;
-  commitHash: String;
-  commitAuthorName: String;
-  commitAuthorAvatar: String;
-  commitDate: String;
+  commitMessage: string;
+  commitHash: string;
+  commitAuthorName: string;
+  commitAuthorAvatar: string;
+  commitDate: string;
 };
 
 // Get Commit Function to get all the commits of a repo, sort with date time order and get slice to get latest 10 commits

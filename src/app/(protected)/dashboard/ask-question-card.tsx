@@ -52,8 +52,8 @@ const AskQuestionCard = () => {
               <Image src="/logo.svg" alt="CodeBrief" width={40} height={40} />
             </DialogTitle>
           </DialogHeader>
-          <h1>Answer</h1>
-          {answer}
+          <h1>{loading ? "Answer ...." : answer}</h1>
+
           <h1>Files </h1>
           {filesReferences.map((files) => {
             return <span key={files.fileName}> {files.fileName} </span>;

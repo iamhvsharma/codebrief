@@ -4,7 +4,6 @@ import useProject from "@/hooks/use-project";
 import { ExternalLink, Github } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import commitLog from "./commit-log";
 import CommitLog from "./commit-log";
 import AskQuestionCard from "./ask-question-card";
 
