@@ -37,6 +37,8 @@ export async function askQuestion(question: string, projectId: string) {
     context += `source: ${doc.sourceCode} \n code content: ${doc.sourceCode} \n summary of file: ${doc.summary}`;
   }
 
+  let finalAnswer = ""; // ✅ Accumulate streamed answer
+
   (async () => {
     const { textStream } = await streamText({
       model: google("gemini-1.5-flash"),
@@ -81,7 +83,7 @@ export async function askQuestion(question: string, projectId: string) {
   })();
 
   return {
-    output: stream,
+    output: stream.value,
     filesReferences: result,
   };
 }

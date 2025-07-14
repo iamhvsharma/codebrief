@@ -34,26 +34,27 @@ export const indexGithubRepo = async (
 ) => {
   const docs = await loadGithubRepo(githubUrl, githubToken);
   const allEmbeddings = await generateEmbeddings(docs);
-  await Promise.allSettled(allEmbeddings.map( async (embedding, index) => {
-    if(!embedding) return;
+  await Promise.allSettled(
+    allEmbeddings.map(async (embedding, index) => {
+      if (!embedding) return;
 
-    const sourceCodeEmbedding = await db.sourceCodeEmbedding.create({
-        data: { 
-            summary: embedding.summary,
-            sourceCode: embedding.sourceCode, 
-            fileName: embedding.fileName, 
-            projectId
-        }
-    })
+      const sourceCodeEmbedding = await db.sourceCodeEmbedding.create({
+        data: {
+          summary: embedding.summary,
+          sourceCode: embedding.sourceCode,
+          fileName: embedding.fileName,
+          projectId,
+        },
+      });
 
-    // Prisma doesn't support inserting vectors for now
-    await db.$executeRaw`
-    UPDATE "sourceCodeEmbedding"
-    SET "summaryEmbedding" = ${embedding.embedding}::vector
-    WHERE "id" = ${sourceCodeEmbedding.id}
-    `
-
-  }))
+      // Prisma doesn't support inserting vectors for now
+      await db.$executeRawUnsafe(`
+  UPDATE "SourceCodeEmbedding"
+  SET "summaryEmbedding" = '[${embedding.embedding.join(",")}]'::vector
+  WHERE "id" = '${sourceCodeEmbedding.id}'
+`);
+    }),
+  );
 };
 
 // Generate embeddings function
