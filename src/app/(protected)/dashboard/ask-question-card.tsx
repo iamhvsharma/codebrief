@@ -14,6 +14,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { askQuestion } from "./actions";
 import { readStreamableValue } from "ai/rsc";
+import MDEditor from "@uiw/react-md-editor";
 
 const AskQuestionCard = () => {
   const { project } = useProject();
@@ -26,13 +27,14 @@ const AskQuestionCard = () => {
   const [answer, setAnswer] = useState("");
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-
+    setAnswer("");
+    setFilesReferences([]);
     e.preventDefault();
     if (!project?.id) return;
     setLoading(true);
-    setOpen(true);
 
     const { output, filesReferences } = await askQuestion(question, project.id);
+    setOpen(true);
     setFilesReferences(filesReferences);
 
     for await (const delta of readStreamableValue(output)) {
@@ -47,20 +49,23 @@ const AskQuestionCard = () => {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[80vw]">
           <DialogHeader>
             <DialogTitle>
               <Image src="/logo.svg" alt="CodeBrief" width={40} height={40} />
             </DialogTitle>
           </DialogHeader>
-          <h1>{loading ? "Answer ...." : answer}</h1>
 
-        
+          <div data-color-mode="light" className="prose max-w-none overflow-y-scroll">
+            <MDEditor.Markdown
+              source={answer}
+              style={{ backgroundColor: "transparent", padding: 0 }}
+            />
+          </div>
 
-          <h1>Files </h1>
-          {filesReferences.map((files) => {
-            return <span key={files.fileName}> {files.fileName} </span>;
-          })}
+          <Button type="button" onClick={() => setOpen(false)}>
+            Close
+          </Button>
         </DialogContent>
       </Dialog>
 
@@ -77,7 +82,9 @@ const AskQuestionCard = () => {
             />
 
             <div className="h-4"></div>
-            <Button type="submit">Ask CodeBrief</Button>
+            <Button type="submit" disabled={loading}>
+              Ask CodeBrief
+            </Button>
           </form>
         </CardContent>
       </Card>
