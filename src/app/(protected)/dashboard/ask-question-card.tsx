@@ -16,6 +16,8 @@ import { askQuestion } from "./actions";
 import { readStreamableValue } from "ai/rsc";
 import MDEditor from "@uiw/react-md-editor";
 import CodeReferences from "./code-references";
+import { api } from "@/trpc/react";
+import { toast } from "sonner";
 
 const AskQuestionCard = () => {
   const { project } = useProject();
@@ -26,6 +28,7 @@ const AskQuestionCard = () => {
     { fileName: string; sourceCode: string; summary: string }[]
   >([]);
   const [answer, setAnswer] = useState("");
+  const saveAnswer = api.project.saveAnswer.useMutation();
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     setAnswer("");
@@ -52,12 +55,37 @@ const AskQuestionCard = () => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="border-border bg-background flex max-h-[85vh] w-full flex-col overflow-hidden rounded-2xl border p-6 shadow-xl sm:max-w-[80vw]">
           {/* Header */}
-          <div className="mb-4 flex items-center gap-3">
-            <Image src="/logo.svg" alt="CodeBrief" width={36} height={36} />
-            <h2 className="text-foreground text-xl font-semibold">
-              CodeBrief Answer
-            </h2>
-          </div>
+          <DialogHeader>
+            <div className="mb-4 flex items-center gap-3">
+              <DialogTitle>
+                <Image src="/logo.svg" alt="CodeBrief" width={36} height={36} />
+              </DialogTitle>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  saveAnswer.mutate(
+                    {
+                      projectId: project!.id,
+                      question,
+                      answer,
+                      filesReferences,
+                    },
+                    {
+                      onSuccess: () => {
+                        setOpen(false);
+                        toast.success("Answer Saved!");
+                      },
+                      onError: () => {
+                        toast.error("Failed to save answer!");
+                      },
+                    },
+                  );
+                }}
+              >
+                Save Answer
+              </Button>
+            </div>
+          </DialogHeader>
 
           {/* Scrollable Content Area */}
           <div className="flex-1 space-y-6 overflow-y-auto px-4">
