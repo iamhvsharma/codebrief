@@ -32,7 +32,7 @@ const QAPage = () => {
           return (
             <React.Fragment key={question.id}>
               <SheetTrigger onClick={() => setQuestionIndex(index)}>
-                <div className="shadow-border flex items-center gap-4 rounded-lg bg-white p-4">
+                <div className="shadow-border flex items-center gap-4 rounded-lg bg-blue-100 p-4">
                   <img
                     src={question.user.imageUrl ?? ""}
                     alt="avatar"
@@ -61,7 +61,7 @@ const QAPage = () => {
       </div>
 
       {question ? (
-        <SheetContent className="sm:max-w-[80vw] overflow-y-scroll">
+        <SheetContent className="sm:max-w-[80vw] overflow-y-scroll rounded-l-2xl">
           <SheetHeader>
             <SheetTitle>{question.question}</SheetTitle>
             <div
