@@ -38,7 +38,7 @@ export async function askQuestion(question: string, projectId: string) {
   }
 
   (async () => {
-    const { textStream } = await streamText({
+    const { textStream } = streamText({
       model: google("gemini-1.5-flash"),
       prompt: `
         You are an AI code assistant designed to help new developers and interns onboard quickly and effectively onto a codebase or project.
