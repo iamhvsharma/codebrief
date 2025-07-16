@@ -1,4 +1,4 @@
-import z from "zod";
+import z, { string } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { pollCommits } from "@/lib/github";
 import { indexGithubRepo } from "@/lib/github-loader";
@@ -85,5 +85,31 @@ export const projectRouter = createTRPCRouter({
           userId: ctx.user.userId!,
         },
       });
+    }),
+
+  getQuestions: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const questions = await ctx.db.question.findMany({
+        where: {
+          projectId: input.projectId,
+        },
+        include: {
+          user: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+      if (!questions) {
+        return;
+      }
+
+      return questions;
     }),
 });
