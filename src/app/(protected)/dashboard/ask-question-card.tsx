@@ -61,6 +61,7 @@ const AskQuestionCard = () => {
                 <Image src="/logo.svg" alt="CodeBrief" width={36} height={36} />
               </DialogTitle>
               <Button
+                disabled={saveAnswer.isPending}
                 variant="outline"
                 onClick={() => {
                   saveAnswer.mutate(
