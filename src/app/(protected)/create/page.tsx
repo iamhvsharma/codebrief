@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useRefetch from "@/hooks/use-refetch";
 import { api } from "@/trpc/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -16,10 +17,12 @@ type FormInput = {
 const CreatePage = () => {
   const { register, handleSubmit, reset } = useForm<FormInput>();
   const refetch = useRefetch();
+  const [loading, setLoading] = useState(false);
 
   const createProject = api.project.createProject.useMutation();
 
   function onSubmit(data: FormInput) {
+    setLoading(true);
     createProject.mutate(
       {
         name: data.projectName,
@@ -79,8 +82,7 @@ const CreatePage = () => {
             />
 
             <Button type="submit" disabled={createProject.isPending}>
-              {" "}
-              Create Project{" "}
+              {loading ? "Creating..." : "Create Project"}
             </Button>
           </form>
         </div>
