@@ -39,7 +39,7 @@ const Hero = () => {
       <div className="mx-auto w-full max-w-4xl lg:col-span-6">
         <div className="relative h-0 pb-[56.25%]">
           <iframe
-            src="https://www.loom.com/embed/5e7a15ca18ef48a0bab84e857d9b56ce?sid=a0417def-f005-4de4-bcb2-1ea177e94a2e"
+            src="https://www.loom.com/share/25587e8667384cdf86532bde21cfd9ba?sid=03613fd6-9555-4d80-a3d7-502dde3c4a54"
             frameBorder="0"
             allowFullScreen
             className="absolute top-0 left-0 h-full w-full rounded-lg"

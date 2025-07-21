@@ -47,7 +47,7 @@ export const getCommitHashes = async (
 
 // Poll Commit Function, gets projectId and based on that finds the github url and project details from DB & calls unprocessedCommits function to get unprocessedCommits
 export const pollCommits = async (projectId: string) => {
-  const { project, githubUrl } = await fetchProjectGitubUrl(projectId);
+  const { githubUrl } = await fetchProjectGitubUrl(projectId);
   const commitHashes = await getCommitHashes(githubUrl);
 
   const unProcessedCommits = await filterUnprocessedCommits(
@@ -66,7 +66,7 @@ export const pollCommits = async (projectId: string) => {
       return response.value;
     }
 
-    return "";
+    return "" 
   });
 
   const commits = await db.commit.createMany({
