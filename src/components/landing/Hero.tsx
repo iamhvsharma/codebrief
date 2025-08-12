@@ -19,9 +19,9 @@ const Hero = () => {
         <div>
           <SignedOut>
             <Link href="/sign-up">
-            <Button className="bg-primary rounded-lg px-6 py-3 text-white hover:bg-gray-800">
-              Try CodeBrief Free
-            </Button>
+              <Button className="bg-primary rounded-lg px-6 py-3 text-white hover:bg-gray-800">
+                Try CodeBrief Free
+              </Button>
             </Link>
           </SignedOut>
 
@@ -39,7 +39,7 @@ const Hero = () => {
       <div className="mx-auto w-full max-w-4xl lg:col-span-6">
         <div className="relative h-0 pb-[56.25%]">
           <iframe
-            src="https://www.loom.com/share/25587e8667384cdf86532bde21cfd9ba?sid=03613fd6-9555-4d80-a3d7-502dde3c4a54"
+            src="https://www.loom.com/embed/25587e8667384cdf86532bde21cfd9ba?sid=4b83efbc-8441-40a2-a57b-f2f6b3f95f06"
             frameBorder="0"
             allowFullScreen
             className="absolute top-0 left-0 h-full w-full rounded-lg"
